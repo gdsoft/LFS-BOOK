@@ -1,0 +1,220 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      6.15.&nbsp;Bc-1.07.1
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.78.1" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-8.4-systemd">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch （简体中文版） - Version 8.4-systemd
+      </h4>
+      <h3>
+        Chapter&nbsp;6.&nbsp;安装基本的系统软件
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="m4.html" title="M4-1.4.18">Prev</a>
+          <p>
+            M4-1.4.18
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="binutils.html" title=
+          "Binutils-2.32">Next</a>
+          <p>
+            Binutils-2.32
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter06.html" title=
+          "Chapter&nbsp;6.&nbsp;安装基本的系统软件">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch （简体中文版） - Version 8.4-systemd">Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-system-bc" name="ch-system-bc"></a>6.15. Bc-1.07.1
+      </h1>
+      <div class="package" lang="en" xml:lang="en">
+        <p>
+          Bc 软件包包括一个任意精度数值处理的语言。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">大致构建用时:</strong> <span class=
+              "segbody">0.1 SBU</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">所需磁盘空间:</strong> <span class=
+              "segbody">4.1 MB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          6.15.1. 安装 Bc
+        </h2>
+        <p>
+          首先，更改内部脚本用 <span class="command"><strong>sed</strong></span> 代替
+          <span class="command"><strong>ed</strong></span>：
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cat &gt; bc/fix-libmath_h &lt;&lt; "EOF"
+#! /bin/bash
+sed -e '1   s/^/{"/' \
+    -e     's/$/",/' \
+    -e '2,$ s/^/"/'  \
+    -e   '$ d'       \
+    -i libmath.h
+
+sed -e '$ s/$/0}/' \
+    -i libmath.h
+EOF</kbd></pre>
+        <p>
+          创建临时符号链接，以便软件包能找到 readline 库，并确认所需的 libncurses 库可用。虽然现在这些库位于
+          /tools/lib 中，但在本章节的最后系统将改用 /usr/lib。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">ln -sv /tools/lib/libncursesw.so.6 /usr/lib/libncursesw.so.6
+ln -sfv libncursesw.so.6 /usr/lib/libncurses.so</kbd></pre>
+        <p>
+          修复一个由于在 LFS 早期阶段缺少文件所导致的 <span class=
+          "command"><strong>configure</strong></span> 问题：
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -i -e '/flex/s/as_fn_error/: ;; # &amp;/' configure</kbd></pre>
+        <p>
+          准备编译 Bc：
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr           \
+            --with-readline         \
+            --mandir=/usr/share/man \
+            --infodir=/usr/share/info</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <strong>配置选项的含义：</strong>
+          </p>
+          <dl class="variablelist">
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--with-readline</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                该选项告诉 Bc 使用系统中已经安装的 <code class="filename">readline</code>
+                库而不是使用自带的 readline 版本。
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          编译软件包：
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          运行下面的命令来测试 bc。这会输出好多内容，因此你可能希望重定向到一个文件。测试中会有很小的比例（10 分之
+          12,144）最后一位数字会有舍入误差。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">echo "quit" | ./bc/bc -l Test/checklib.b</kbd></pre>
+        <p>
+          安装软件包：
+        </p>
+        <pre class="userinput"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="content" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          <a id="contents-bc" name="contents-bc"></a>6.15.2. Bc 软件包内容
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">安装的程序:</strong> <span class=
+              "segbody">bc 和 dc</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            简要介绍
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="bc" name="bc"></a><span class="term"><span class=
+                    "command"><strong>bc</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    一个命令行计算器
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="dc" name="dc"></a><span class="term"><span class=
+                    "command"><strong>dc</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    逆波兰命令行计算器
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="m4.html" title="M4-1.4.18">Prev</a>
+          <p>
+            M4-1.4.18
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="binutils.html" title=
+          "Binutils-2.32">Next</a>
+          <p>
+            Binutils-2.32
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter06.html" title=
+          "Chapter&nbsp;6.&nbsp;安装基本的系统软件">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch （简体中文版） - Version 8.4-systemd">Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,875 @@
+<?xml version="1.0"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
+<chapter id="chapter-getting-materials" xreflabel="&#x7B2C; 3 &#x7AE0;">
+  <?dbhtml dir="chapter03"?>
+  <?dbhtml filename="chapter03.html"?>
+
+  <title>软件包和补丁</title>
+
+  <sect1 id="materials-introduction">
+  <?dbhtml filename="introduction.html"?>
+
+  <title>简介</title>
+
+  <para>本章列出了一张软件包的清单，你需要下载它们来构建一个基础的 Linux 系统。列出的软件版本号便是该软件经过确认可以正常工作的版本，也是成书时我们使用的版本。我们强烈建议不要使用更新的版本，因为某个版本的编译指令并不一定适用于更新版本。最新的软件包会包含许多问题，需要特别对应。这些对应方法会在本书的开发版本中解决并固定下来。</para>
+
+  <para>我们无法保证下载的地址是一直有效的。如果在本书发布后下载地址变了，大部分软件包可以用 Google （<ulink url="http://www.google.com/"/>）解决。如果连搜索也失败了，那不妨试一试 <ulink url="http://www.linuxfromscratch.org/lfs/packages.html#packages"/> 中提到的其他下载地址。</para>
+
+  <para>下载好的软件包和补丁需要保存在某处，这个某处最好是一个在整个构建过程中都能便捷地访问到的地方。另外还需要一个工作目录，用于解压并构建源码。<filename class="directory" moreinfo="none">$LFS/sources</filename> 可以同时作为软件包、补丁的存放所和工作目录。通过这个目录，所有需要的元素都将存储在 LFS 分区中，并且在整个构建过程中都可以访问。</para>
+
+  <para>在开始下载任务之前，先用 <systemitem class="username" moreinfo="none">root</systemitem> 用户执行下面的命令，创建这个目录：</para>
+
+<screen role="nodump" format="linespecific"><userinput moreinfo="none">mkdir -v $LFS/sources</userinput></screen>
+
+  <para>设置目录的写权限和粘滞模式。「粘滞模式」是指，即便多个用户对某个目录有写权限，但仅有文件的所有者，能在粘滞目录中删除该文件。运行以下命令将开启目录的写权限和粘滞模式：</para>
+
+<screen role="nodump" format="linespecific"><userinput moreinfo="none">chmod -v a+wt $LFS/sources</userinput></screen>
+
+  <para>一个简单的一口气下载所有软件包和补丁的方法是使用 <ulink url="../wget-list">wget-list</ulink> 作为 <command moreinfo="none">wget</command> 的输入。例如：</para>
+
+<screen role="nodump" format="linespecific"><userinput moreinfo="none">wget --input-file=wget-list --continue --directory-prefix=$LFS/sources</userinput></screen>
+
+  <para>LCTT 译注：由于这些文件都分布在国外的不同站点上，因此有些下载的会很慢。非常感谢中国科学技术大学镜像站提供的 LFS 软件包：<ulink url="http://mirrors.ustc.edu.cn/lfs/lfs-packages/8.4/"/></para>
+
+  <para>另外，从 LFS-7.0 开始，多了一个单独的文件 <ulink url="../md5sums">md5sums</ulink>，可以在正式开始前校验所有的文件是否都正确。将这个文件复制到 <filename class="directory" moreinfo="none">$LFS/sources</filename> 目录中并执行：</para>
+
+<screen role="nodump" format="linespecific"><userinput moreinfo="none">pushd $LFS/sources
+md5sum -c md5sums
+popd</userinput></screen>
+
+</sect1>
+  <sect1 id="materials-packages">
+  <?dbhtml filename="packages.html"?>
+
+  <title>所有软件包</title>
+
+  <para>下载或使用别的方式获取如下软件包：</para>
+
+  <variablelist role="materials">
+
+    <varlistentry>
+      <term>Acl (2.2.53) - <token>513 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url=" "/></para>
+        <para>下载： <ulink url="http://download.savannah.gnu.org/releases/acl/acl-2.2.53.tar.gz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">007aabf1dbb550bcddde52a244cd1070</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Attr (2.4.48) - <token>457 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="https://savannah.nongnu.org/projects/attr"/></para>
+        <para>下载： <ulink url="http://download.savannah.gnu.org/releases/attr/attr-2.4.48.tar.gz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">bc1e5cb5c96d99b24886f1f527d3bb3d</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Autoconf (2.69) - <token>1,186 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="http://www.gnu.org/software/autoconf/"/></para>
+        <para>下载： <ulink url="http://ftp.gnu.org/gnu/autoconf/autoconf-2.69.tar.xz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">50f97f4159805e374639a73e2636f22e</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Automake (1.16.1) - <token>1,499 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="http://www.gnu.org/software/automake/"/></para>
+        <para>下载： <ulink url="http://ftp.gnu.org/gnu/automake/automake-1.16.1.tar.xz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">53f38e7591fa57c3d2cee682be668e5b</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Bash (5.0) - <token>9,898 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="http://www.gnu.org/software/bash/"/></para>
+        <para>下载： <ulink url="http://ftp.gnu.org/gnu/bash/bash-5.0.tar.gz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">2b44b47b905be16f45709648f671820b</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Bc (1.07.1) - <token>411 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="http://www.gnu.org/software/bc/"/></para>
+        <para>下载： <ulink url="http://ftp.gnu.org/gnu/bc/bc-1.07.1.tar.gz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">cda93857418655ea43590736fc3ca9fc</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Binutils (2.32) - <token>20,288 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="http://www.gnu.org/software/binutils/"/></para>
+        <para>下载： <ulink url="http://ftp.gnu.org/gnu/binutils/binutils-2.32.tar.xz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">0d174cdaf85721c5723bf52355be41e6</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Bison (3.3.2) - <token>2,060 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="http://www.gnu.org/software/bison/"/></para>
+        <para>下载： <ulink url="http://ftp.gnu.org/gnu/bison/bison-3.3.2.tar.xz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">c9b552dee234b2f6b66e56b27e5234c9</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Bzip2 (1.0.6) - <token>764 KB</token>:</term>
+      <listitem>
+        <!--<para>主页： <ulink url="&bzip2-home;"/></para>-->
+        <para>下载： <ulink url="http://anduin.linuxfromscratch.org/LFS/bzip2-1.0.6.tar.gz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">00b516f4704d4a7cb50a1d97e6e8e15b</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Check (0.12.0) - <token>747 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="https://libcheck.github.io/check"/></para>
+        <para>下载： <ulink url="https://github.com/libcheck/check/releases/download/0.12.0/check-0.12.0.tar.gz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">31b17c6075820a434119592941186f70</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Coreutils (8.30) - <token>5,234 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="http://www.gnu.org/software/coreutils/"/></para>
+        <para>下载： <ulink url="http://ftp.gnu.org/gnu/coreutils/coreutils-8.30.tar.xz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">ab06d68949758971fe744db66b572816</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry revision="systemd">
+      <term>D-Bus (1.12.12) - <token>2,029 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="https://www.freedesktop.org/wiki/Software/dbus"/></para>
+        <para>下载： <ulink url="https://dbus.freedesktop.org/releases/dbus/dbus-1.12.12.tar.gz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">ea11069521beeee4e47f0086596a43c8</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>DejaGNU (1.6.2) - <token>514 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="http://www.gnu.org/software/dejagnu/"/></para>
+        <para>下载： <ulink url="http://ftp.gnu.org/gnu/dejagnu/dejagnu-1.6.2.tar.gz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">e1b07516533f351b3aba3423fafeffd6</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Diffutils (3.7) - <token>1,415 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="http://www.gnu.org/software/diffutils/"/></para>
+        <para>下载： <ulink url="http://ftp.gnu.org/gnu/diffutils/diffutils-3.7.tar.xz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">4824adc0e95dbbf11dfbdfaad6a1e461</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>E2fsprogs (1.44.5) - <token>7,448 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="http://e2fsprogs.sourceforge.net/"/></para>
+        <para>下载： <ulink url="https://downloads.sourceforge.net/project/e2fsprogs/e2fsprogs/v1.44.5/e2fsprogs-1.44.5.tar.gz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">8d78b11d04d26c0b2dd149529441fa80</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Elfutils (0.176) - <token>8,444 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="https://sourceware.org/ftp/elfutils/"/></para>
+        <para>下载： <ulink url="https://sourceware.org/ftp/elfutils/0.176/elfutils-0.176.tar.bz2"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">077e4f49320cad82bf17a997068b1db9</literal></para>
+      </listitem>
+    </varlistentry>
+
+    
+
+    <varlistentry>
+      <term>Expat (2.2.6) - <token>502 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="https://libexpat.github.io/"/></para>
+        <para>下载： <ulink url="https://prdownloads.sourceforge.net/expat/expat-2.2.6.tar.bz2"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">ca047ae951b40020ac831c28859161b2</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Expect (5.45.4) - <token>618 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="https://core.tcl.tk/expect/"/></para>
+        <para>下载： <ulink url="https://prdownloads.sourceforge.net/expect/expect5.45.4.tar.gz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">00fce8de158422f5ccd2666512329bd2</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>File (5.36) - <token>856 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="https://www.darwinsys.com/file/"/></para>
+        <para>下载： <ulink url="ftp://ftp.astron.com/pub/file/file-5.36.tar.gz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">9af0eb3f5db4ae00fffc37f7b861575c</literal></para>
+
+        <note>
+          <para>File (5.36) 可能已经不能从列出的地址下载了。该站点管理员在新版本发布后删除了旧版本。合适版本的替代下载地址为： <ulink url="http://www.linuxfromscratch.org/lfs/download.html#ftp"/>。</para>
+        </note>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Findutils (4.6.0) - <token>3,692 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="http://www.gnu.org/software/findutils/"/></para>
+        <para>下载： <ulink url="http://ftp.gnu.org/gnu/findutils/findutils-4.6.0.tar.gz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">9936aa8009438ce185bea2694a997fc1</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Flex (2.6.4) - <token>1,386 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="https://github.com/westes/flex"/></para>
+        <para>下载： <ulink url="https://github.com/westes/flex/releases/download/v2.6.4/flex-2.6.4.tar.gz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">2882e3179748cc9f9c23ec593d6adc8d</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Gawk (4.2.1) - <token>2,916 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="http://www.gnu.org/software/gawk/"/></para>
+        <para>下载： <ulink url="http://ftp.gnu.org/gnu/gawk/gawk-4.2.1.tar.xz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">95cf553f50ec9f386b5dfcd67f30180a</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>GCC (8.2.0) - <token>61,974 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="https://gcc.gnu.org/"/></para>
+        <para>下载： <ulink url="http://ftp.gnu.org/gnu/gcc/gcc-8.2.0/gcc-8.2.0.tar.xz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">4ab282f414676496483b3e1793d07862</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>GDBM (1.18.1) - <token>920 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="http://www.gnu.org/software/gdbm/"/></para>
+        <para>下载： <ulink url="http://ftp.gnu.org/gnu/gdbm/gdbm-1.18.1.tar.gz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">988dc82182121c7570e0cb8b4fcd5415</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Gettext (0.19.8.1) - <token>7,041 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="http://www.gnu.org/software/gettext/"/></para>
+        <para>下载： <ulink url="http://ftp.gnu.org/gnu/gettext/gettext-0.19.8.1.tar.xz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">df3f5690eaa30fd228537b00cb7b7590</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Glibc (2.29) - <token>16,129 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="http://www.gnu.org/software/libc/"/></para>
+        <para>下载： <ulink url="http://ftp.gnu.org/gnu/glibc/glibc-2.29.tar.xz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">e6c279d5b2f0736f740216f152acf974</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>GMP (6.1.2) - <token>1,901 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="http://www.gnu.org/software/gmp/"/></para>
+        <para>下载： <ulink url="http://ftp.gnu.org/gnu/gmp/gmp-6.1.2.tar.xz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">f58fa8001d60c4c77595fbbb62b63c1d</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Gperf (3.1) - <token>1,188 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="http://www.gnu.org/software/gperf/"/></para>
+        <para>下载： <ulink url="http://ftp.gnu.org/gnu/gperf/gperf-3.1.tar.gz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">9e251c0a618ad0824b51117d5d9db87e</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Grep (3.3) - <token>1,440 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="http://www.gnu.org/software/grep/"/></para>
+        <para>下载： <ulink url="http://ftp.gnu.org/gnu/grep/grep-3.3.tar.xz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">05d0718a1b7cc706a4bdf8115363f1ed</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Groff (1.22.4) - <token>4,044 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="http://www.gnu.org/software/groff/"/></para>
+        <para>下载： <ulink url="http://ftp.gnu.org/gnu/groff/groff-1.22.4.tar.gz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">08fb04335e2f5e73f23ea4c3adbf0c5f</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>GRUB (2.02) - <token>5,970 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="http://www.gnu.org/software/grub/"/></para>
+        <para>下载： <ulink url="https://ftp.gnu.org/gnu/grub/grub-2.02.tar.xz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">8a4a2a95aac551fb0fba860ceabfa1d3</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Gzip (1.10) - <token>757 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="http://www.gnu.org/software/gzip/"/></para>
+        <para>下载： <ulink url="http://ftp.gnu.org/gnu/gzip/gzip-1.10.tar.xz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">691b1221694c3394f1c537df4eee39d3</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Iana-Etc (2.30) - <token>201 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="http://freecode.com/projects/iana-etc"/></para>
+        <para>下载： <ulink url="http://anduin.linuxfromscratch.org/LFS/iana-etc-2.30.tar.bz2"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">3ba3afb1d1b261383d247f46cb135ee8</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Inetutils (1.9.4) - <token>1,333 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="http://www.gnu.org/software/inetutils/"/></para>
+        <para>下载： <ulink url="http://ftp.gnu.org/gnu/inetutils/inetutils-1.9.4.tar.xz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">87fef1fa3f603aef11c41dcc097af75e</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Intltool (0.51.0) - <token>159 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="https://freedesktop.org/wiki/Software/intltool"/></para>
+        <para>下载： <ulink url="https://launchpad.net/intltool/trunk/0.51.0/+download/intltool-0.51.0.tar.gz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">12e517cac2b57a0121cda351570f1e63</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>IPRoute2 (4.20.0) - <token>691 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="https://www.kernel.org/pub/linux/utils/net/iproute2/"/></para>
+        <para>下载： <ulink url="https://www.kernel.org/pub/linux/utils/net/iproute2/iproute2-4.20.0.tar.xz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">f3dab4c812812bbb5873cb90f471bcbf</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Kbd (2.0.4) - <token>1,008 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="http://ftp.altlinux.org/pub/people/legion/kbd"/></para>
+        <para>下载： <ulink url="https://www.kernel.org/pub/linux/utils/kbd/kbd-2.0.4.tar.xz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">c1635a5a83b63aca7f97a3eab39ebaa6</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Kmod (26) - <token>540 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url=" "/></para>
+        <para>下载： <ulink url="https://www.kernel.org/pub/linux/utils/kernel/kmod/kmod-26.tar.xz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">1129c243199bdd7db01b55a61aa19601</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Less (530) - <token>332 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="http://www.greenwoodsoftware.com/less/"/></para>
+        <para>下载： <ulink url="http://www.greenwoodsoftware.com/less/less-530.tar.gz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">6a39bccf420c946b0fd7ffc64961315b</literal></para>
+      </listitem>
+    </varlistentry>
+
+    
+
+    <varlistentry>
+      <term>Libcap (2.26) - <token>66 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="https://sites.google.com/site/fullycapable/"/></para>
+        <para>下载： <ulink url="https://www.kernel.org/pub/linux/libs/security/linux-privs/libcap2/libcap-2.26.tar.xz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">968ac4d42a1a71754313527be2ab5df3</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Libffi (3.2.1) - <token>920 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="https://sourceware.org/libffi/"/></para>
+        <para>下载： <ulink url="ftp://sourceware.org/pub/libffi/libffi-3.2.1.tar.gz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">83b89587607e3eb65c70d361f13bab43</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Libpipeline (1.5.1) - <token>965 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="http://libpipeline.nongnu.org/"/></para>
+        <para>下载： <ulink url="http://download.savannah.gnu.org/releases/libpipeline/libpipeline-1.5.1.tar.gz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">4c8fe6cd85422baafd6e060f896c61bc</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Libtool (2.4.6) - <token>951 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="http://www.gnu.org/software/libtool/"/></para>
+        <para>下载： <ulink url="http://ftp.gnu.org/gnu/libtool/libtool-2.4.6.tar.xz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">1bfb9b923f2c1339b4d2ce1807064aa5</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Linux (4.20.12) - <token>101,841 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="https://www.kernel.org/"/></para>
+        <para>下载： <ulink url="https://www.kernel.org/pub/linux/kernel/v4.x/linux-4.20.12.tar.xz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">edd3015435d60598b99cf6aaf223710e</literal></para>
+
+        <note>
+          <para>Linux 内核更新相对比较频繁，大多数时候是因为发现了安全漏洞。当前最新的 4.20.x 内核版本应该都可以使用，除非在勘误页有其他说明。</para>
+
+          <para>对于网速较慢或带宽费用较高的用户如果希望更新 Linux 内核，可以将基线版本的软件包和补丁分开下载。针对次要版本中一连串的补丁程度的更新，这种操作方式也许能让你少费些时间，或者说功夫。</para>
+
+        </note>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>M4 (1.4.18) - <token>1,180 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="http://www.gnu.org/software/m4/"/></para>
+        <para>下载： <ulink url="http://ftp.gnu.org/gnu/m4/m4-1.4.18.tar.xz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">730bb15d96fffe47e148d1e09235af82</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Make (4.2.1) - <token>1,375 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="http://www.gnu.org/software/make/"/></para>
+        <para>下载： <ulink url="http://ftp.gnu.org/gnu/make/make-4.2.1.tar.bz2"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">15b012617e7c44c0ed482721629577ac</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Man-DB (2.8.5) - <token>1,746 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="https://www.nongnu.org/man-db/"/></para>
+        <para>下载： <ulink url="http://download.savannah.gnu.org/releases/man-db/man-db-2.8.5.tar.xz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">c5c6c3434be14a5527d43b5ad0f09a13</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Man-pages (4.16) - <token>1,592 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="https://www.kernel.org/doc/man-pages/"/></para>
+        <para>下载： <ulink url="https://www.kernel.org/pub/linux/docs/man-pages/man-pages-4.16.tar.xz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">ad9f1ff81276fe8d90d077484d6d4b5e</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Meson (0.49.2) - <token>1,310 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="https://mesonbuild.com"/></para>
+        <para>下载： <ulink url="https://github.com/mesonbuild/meson/releases/download/0.49.2/meson-0.49.2.tar.gz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">0267b0871266056184c484792572c682</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>MPC (1.1.0) - <token>685 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="http://www.multiprecision.org/"/></para>
+        <para>下载： <ulink url="https://ftp.gnu.org/gnu/mpc/mpc-1.1.0.tar.gz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">4125404e41e482ec68282a2e687f6c73</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>MPFR (4.0.2) - <token>1,409 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="https://www.mpfr.org/"/></para>
+        <para>下载： <ulink url="http://www.mpfr.org/mpfr-4.0.2/mpfr-4.0.2.tar.xz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">320fbc4463d4c8cb1e566929d8adc4f8</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Ninja (1.9.0) - <token>187 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="https://ninja-build.org/"/></para>
+        <para>下载： <ulink url="https://github.com/ninja-build/ninja/archive/v1.9.0/ninja-1.9.0.tar.gz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">f340be768a76724b83e6daab69009902</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Ncurses (6.1) - <token>3,288 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="http://www.gnu.org/software/ncurses/"/></para>
+        <para>下载： <ulink url="http://ftp.gnu.org/gnu/ncurses/ncurses-6.1.tar.gz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">98c889aaf8d23910d2b92d65be2e737a</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>OpenSSL (1.1.1a) - <token>8,160 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="https://www.openssl.org/"/></para>
+        <para>下载： <ulink url="https://openssl.org/source/openssl-1.1.1a.tar.gz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">963deb2272d6be7d4c2458afd2517b73</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Patch (2.7.6) - <token>766 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="https://savannah.gnu.org/projects/patch/"/></para>
+        <para>下载： <ulink url="http://ftp.gnu.org/gnu/patch/patch-2.7.6.tar.xz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">78ad9937e4caadcba1526ef1853730d5</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Perl (5.28.1) - <token>12,083 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="https://www.perl.org/"/></para>
+        <para>下载： <ulink url="https://www.cpan.org/src/5.0/perl-5.28.1.tar.xz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">fbb590c305f2f88578f448581b8cf9c4</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Pkg-config (0.29.2) - <token>1,970 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="https://www.freedesktop.org/wiki/Software/pkg-config"/></para>
+        <para>下载： <ulink url="https://pkg-config.freedesktop.org/releases/pkg-config-0.29.2.tar.gz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">f6e931e319531b736fadc017f470e68a</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Procps (3.3.15) - <token>884 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="https://sourceforge.net/projects/procps-ng"/></para>
+        <para>下载： <ulink url="https://sourceforge.net/projects/procps-ng/files/Production/procps-ng-3.3.15.tar.xz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">2b0717a7cb474b3d6dfdeedfbad2eccc</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Psmisc (23.2) - <token>297 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="http://psmisc.sourceforge.net/"/></para>
+        <para>下载： <ulink url="https://sourceforge.net/projects/psmisc/files/psmisc/psmisc-23.2.tar.xz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">0524258861f00be1a02d27d39d8e5e62</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Python (3.7.2) - <token>16,648 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="https://www.python.org/"/></para>
+        <para>下载： <ulink url="https://www.python.org/ftp/python/3.7.2/Python-3.7.2.tar.xz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">df6ec36011808205beda239c72f947cb</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Python Documentation (3.7.2) - <token>6,072 KB</token>:</term>
+      <listitem>
+        <para>下载： <ulink url="https://docs.python.org/ftp/python/doc/3.7.2/python-3.7.2-docs-html.tar.bz2"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">107ade7bb17efd104a22b2d457f4cb67</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Readline (8.0) - <token>2,907 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="https://tiswww.case.edu/php/chet/readline/rltop.html"/></para>
+        <para>下载： <ulink url="http://ftp.gnu.org/gnu/readline/readline-8.0.tar.gz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">7e6c1f16aee3244a69aba6e438295ca3</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Sed (4.7) - <token>1,268 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="http://www.gnu.org/software/sed/"/></para>
+        <para>下载： <ulink url="http://ftp.gnu.org/gnu/sed/sed-4.7.tar.xz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">777ddfd9d71dd06711fe91f0925e1573</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Shadow (4.6) - <token>1,639 KB</token>:</term>
+      <listitem>
+        <!-- <para>主页： <ulink url="&shadow-home;"/></para> -->
+        <para>下载： <ulink url="https://github.com/shadow-maint/shadow/releases/download/4.6/shadow-4.6.tar.xz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">b491fecbf1232632c32ff8f1437fd60e</literal></para>
+
+        <!-- Using http://cdn.debian.net/debian/pool/main/s/shadow/
+             for now since alioth has not reconstituted shadow -->
+      </listitem>
+    </varlistentry>
+
+    
+
+    <varlistentry revision="systemd">
+      <term>systemd (240) - <token>7,412 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="https://www.freedesktop.org/wiki/Software/systemd/"/></para>
+        <para>下载： <ulink url="https://github.com/systemd/systemd/archive/v240/systemd-240.tar.gz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">0e4f91b513d4b04e2c10a5173e5a87b2</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry revision="systemd">
+      <term>systemd Man Pages(240) - <token>460 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="https://www.freedesktop.org/wiki/Software/systemd/"/></para>
+        <para>下载： <ulink url="http://anduin.linuxfromscratch.org/LFS/systemd-man-pages-240.tar.xz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">ca49a25e1cf330b02adc07218f430dae</literal></para>
+
+        <note>
+          <para>Linux From Scratch 团队自制了 systemd man 手册的源码包。之所以这么做，是为了避免不必要的依赖。</para>
+        </note>
+      </listitem>
+    </varlistentry>
+
+
+    
+
+    <varlistentry>
+      <term>Tar (1.31) - <token>2,052 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="http://www.gnu.org/software/tar/"/></para>
+        <para>下载： <ulink url="http://ftp.gnu.org/gnu/tar/tar-1.31.tar.xz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">bc9a89da1185ceb2210de12552c43ce2</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Tcl (8.6.9) - <token>9,772 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="http://tcl.sourceforge.net/"/></para>
+        <para>下载： <ulink url="https://downloads.sourceforge.net/tcl/tcl8.6.9-src.tar.gz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">aa0a121d95a0e7b73a036f26028538d4</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Texinfo (6.5) - <token>4,399 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="http://www.gnu.org/software/texinfo/"/></para>
+        <para>下载： <ulink url="http://ftp.gnu.org/gnu/texinfo/texinfo-6.5.tar.xz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">3715197e62e0e07f85860b3d7aab55ed</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Time Zone Data (2018i) - <token>369 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="https://www.iana.org/time-zones"/></para>
+        <para>下载： <ulink url="https://www.iana.org/time-zones/repository/releases/tzdata2018i.tar.gz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">b3f0a1a789480a036e58466cd0702477</literal></para>
+      </listitem>
+    </varlistentry>
+
+    
+
+    <varlistentry>
+      <term>Util-linux (2.33.1) - <token>4,542 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="http://freecode.com/projects/util-linux"/></para>
+        <para>下载： <ulink url="https://www.kernel.org/pub/linux/utils/util-linux/v2.33/util-linux-2.33.1.tar.xz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">6fcfea2043b5ac188fd3eed56aeb5d90</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Vim (8.1) - <token>10,995 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="https://www.vim.org"/></para>
+        <para>下载： <ulink url="ftp://ftp.vim.org/pub/vim/unix/vim-8.1.tar.bz2"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">1739a1df312305155285f0cfa6118294</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>XML::Parser (2.44) - <token>232 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="https://github.com/chorny/XML-Parser"/></para>
+        <para>下载： <ulink url="https://cpan.metacpan.org/authors/id/T/TO/TODDR/XML-Parser-2.44.tar.gz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">af4813fe3952362451201ced6fbce379</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Xz Utils (5.2.4) - <token>1030 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="https://tukaani.org/xz"/></para>
+        <para>下载： <ulink url="https://tukaani.org/xz/xz-5.2.4.tar.xz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">003e4d0b1b1899fc6e3000b24feddf7c</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Zlib (1.2.11) - <token>457 KB</token>:</term>
+      <listitem>
+        <para>主页： <ulink url="https://www.zlib.net/"/></para>
+        <para>下载： <ulink url="https://zlib.net/zlib-1.2.11.tar.xz"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">85adef240c5f370b308da8c938951a68</literal></para>
+      </listitem>
+    </varlistentry>
+
+  </variablelist>
+
+  <para>这些安装包的总计：约 <returnvalue/></para>
+
+</sect1>
+  <sect1 id="materials-patches">
+  <?dbhtml filename="patches.html"?>
+
+  <title>需要的补丁</title>
+
+  <para>除了下载软件包外，还需要几个补丁。这些补丁修正了软件包中应该由维护者来解决的问题。补丁也会对软件包做一些小调整方便大家使用。构建 LFS 系统需要下面的补丁：</para>
+
+  <variablelist role="materials">
+<!--
+    <varlistentry>
+      <term>Bash 上游修复补丁 - <token>&bash-fixes-patch-size;</token>:</term>
+      <listitem>
+        <para>下载： <ulink url="&patches-root;&bash-fixes-patch;"/></para>
+        <para>MD5 校验和： <literal>&bash-fixes-patch-md5;</literal></para>
+      </listitem>
+    </varlistentry>
+-->
+<!--
+    <varlistentry>
+      <term>Bc 内存泄漏补丁 - <token>&bc-memory-leak-patch-size;</token>:</term>
+      <listitem>
+        <para>下载： <ulink url="&patches-root;&bc-memory-leak-patch;"/></para>
+        <para>MD5 校验和： <literal>&bc-memory-leak-patch-md5;</literal></para>
+      </listitem>
+    </varlistentry>
+-->
+    <varlistentry>
+      <term>Bzip2 文档补丁 - <token>1.6 KB</token>:</term>
+      <listitem>
+        <para>下载： <ulink url="http://www.linuxfromscratch.org/patches/lfs/8.4/bzip2-1.0.6-install_docs-1.patch"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">6a5ac7e89b791aae556de0f745916f7f</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Coreutils 国际化修复补丁  - <token>168 KB</token>:</term>
+      <listitem>
+        <para>下载： <ulink url="http://www.linuxfromscratch.org/patches/lfs/8.4/coreutils-8.30-i18n-1.patch"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">a9404fb575dfd5514f3c8f4120f9ca7d</literal></para>
+      </listitem>
+    </varlistentry>
+<!--
+    <varlistentry>
+      <term>Flex 修复补丁 - <token>&flex-fixes-patch-size;</token>:</term>
+      <listitem>
+        <para>下载： <ulink url="&patches-root;&flex-fixes-patch;"/></para>
+        <para>MD5 校验和： <literal>&flex-fixes-patch-md5;</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Gccc ASAN 补丁 - <token>&gcc-asan-patch-size;</token>:</term>
+      <listitem>
+        <para>下载： <ulink url="&patches-root;&gcc-asan-patch;"/></para>
+        <para>MD5 校验和： <literal>&gcc-asan-patch-md5;</literal></para>
+      </listitem>
+    </varlistentry>
+-->
+    <varlistentry>
+      <term>Glibc FHS 补丁 - <token>2.8 KB</token>:</term>
+      <listitem>
+        <para>下载： <ulink url="http://www.linuxfromscratch.org/patches/lfs/8.4/glibc-2.29-fhs-1.patch"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">9a5997c3452909b1769918c759eff8a2</literal></para>
+      </listitem>
+    </varlistentry>
+<!--
+    <varlistentry>
+      <term>Glibc Glob Security Patch - <token>&glibc-glob-patch-size;</token>:</term>
+      <listitem>
+        <para>Download: <ulink url="&patches-root;&glibc-glob-patch;"/></para>
+        <para>MD5 sum: <literal>&glibc-glob-patch-md5;</literal></para>
+      </listitem>
+    </varlistentry>
+-->
+    <varlistentry>
+      <term>Kbd Backspace/Delete 键修复补丁 - <token>12 KB</token>:</term>
+      <listitem>
+        <para>下载： <ulink url="http://www.linuxfromscratch.org/patches/lfs/8.4/kbd-2.0.4-backspace-1.patch"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">f75cca16a38da6caa7d52151f7136895</literal></para>
+      </listitem>
+    </varlistentry>
+<!--
+    <varlistentry>
+      <term>Ninja Limit Jobs 补丁 - <token>&ninja-limit-jobs-patch-size;</token>:</term>
+      <listitem>
+        <para>下载: <ulink url="&patches-root;&ninja-limit-jobs-patch;"/></para>
+        <para>MD5 校验和: <literal>&ninja-limit-jobs-patch-md5;</literal></para>
+      </listitem>
+    </varlistentry>
+-->
+<!--
+    <varlistentry>
+      <term>Readline 上游修复补丁 - <token>&readline-fixes-patch-size;</token>:</term>
+      <listitem>
+        <para>下载： <ulink url="&patches-root;&readline-fixes-patch;"/></para>
+        <para>MD5 校验和： <literal>&readline-fixes-patch-md5;</literal></para>
+      </listitem>
+    </varlistentry>
+-->
+    
+
+    <varlistentry revision="systemd">
+      <term>systemd 安全补丁 - <token>14 KB</token>:</term>
+      <listitem>
+        <para>下载： <ulink url="http://www.linuxfromscratch.org/patches/lfs/8.4/systemd-240-security_fixes-2.patch"/></para>
+        <para>MD5 校验和： <literal moreinfo="none">10abebce8ff5d9fd402623ace39b5ab8</literal></para>
+      </listitem>
+    </varlistentry>
+
+  </variablelist>
+
+  <para>这些补丁文件总大小: 约 <returnvalue/></para>
+
+  <para>除了以上所要求的补丁外，还有一些由 LFS 社区创建的可选补丁。这些可选补丁或是解决了一些小问题，或是打开某个默认关闭的功能。请查阅补丁数据库 <ulink url="http://www.linuxfromscratch.org/patches/downloads/"/>，获取适合你系统需求的额外补丁。</para>
+
+</sect1>
+
+</chapter>
